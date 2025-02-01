@@ -1,134 +1,290 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>		<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>			<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>			<html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->	<html class="no-js"> <!--<![endif]-->
-	<head>
-		<meta charset="utf-8">
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IP Subnet Netmask Calculator</title>
+	<link rel="shortcut icon" href="./resources/img/favicon.ico">
 
+  <!-- Material-ish Fonts & Basic Reset -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <!-- Google Material Icons -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  />
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<link href="https://use.typekit.net/rur5rja.css" rel="stylesheet">
+	<link rel="stylesheet" href="./lib/custom.css">
+</head>
 
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<!--
+  We apply "dark-mode" to <body> from the start,
+  so it loads in dark mode by default.
+-->
+<body class="dark-mode">
+<!-- App Bar -->
+<header>
+	<img src="./resources/img/Yack_LogoRond_darkmode.svg" alt="Yack Security logo" class="logo-default" style="width: 110px; height: 35px;">
+  <img src="./resources/img/Yack_LogoTagRond-MauveBlanc-04.svg" alt="Yack Security logo small" class="logo-small" style="display: none; width: 35px; height: 35px;">
+  <h1>IP Subnet Netmask Calculator</h1>
 
-		<title>IP Subnet Netmask Optimizer / IP Subnet Calculator</title>
-		<meta name="description" content="Online tool for calculating optimized IP masks for subnets that do not respect A/B/C/D classes">
+  <!-- Dark/Light Toggle Button with Material Icons -->
+  <button class="mode-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+    <span class="material-icons" id="sunIcon">light_mode</span>
+    <span class="material-icons" id="moonIcon">dark_mode</span>
+  </button>
+</header>
 
-		<meta name="viewport" content="width=device-width">
+<div class="container">
+  <!-- IP Range Mask Optimizer -->
+  <div class="card">
+    <h2>IP Range Mask Optimizer</h2>
+    <p>
+      This tool calculates optimal netmasks for covering any range of IP addresses.
+      Depending on the range of IP addresses entered, the result can be multiple masks.
+    </p>
+    <div class="form-group">
+      <label for="rangeStart">IP range start value, e.g. 10.0.0.1</label>
+      <input type="text" id="rangeStart" />
+    </div>
+    <div class="form-group">
+      <label for="rangeEnd">IP range end value, e.g. 10.0.4.255</label>
+      <input type="text" id="rangeEnd" />
+    </div>
+    <button class="btn" onclick="calculateRange();">Calculate</button>
+    <div id="rangeResults" class="results hidden"></div>
+  </div>
 
-		<link rel="stylesheet" href="resources/css/main.css">
-	</head>
-	<body>
+  <!-- CIDR Subnet Mask Calculator -->
+  <div class="card">
+    <h2>CIDR Subnet Mask Calculator</h2>
+    <p>Enter an IP and select a subnet mask to calculate the resulting subnet.</p>
+    <div class="form-group">
+      <label for="cidrAddress">IP Address</label>
+      <input type="text" id="cidrAddress" placeholder="e.g. 10.0.0.1" />
+    </div>
+    <div class="form-group">
+      <label for="cidrMask">Select Subnet Mask</label>
+      <select id="cidrMask">
+        <option value="">-- Choose one --</option>
+        <option value="8">/8</option>
+        <option value="16">/16</option>
+        <option value="24">/24</option>
+        <option value="26">/26</option>
+        <option value="30">/30</option>
+      </select>
+    </div>
+    <button class="btn" onclick="calculateCIDR();">Calculate</button>
+    <div id="cidrResults" class="results hidden"></div>
+  </div>
 
-		<div class="header-container">
-			<header class="wrapper clearfix">
-				<h1 class="title">IP Subnet Netmask Calculator</h1>
-			</header>
-		</div>
+  <!-- Subnet Mask Calculator -->
+  <div class="card">
+    <h2>Subnet Mask Calculator</h2>
+    <p>Enter an IP address and a subnet mask (e.g. 255.255.255.0) to see network details.</p>
+    <div class="form-group">
+      <label for="ipAddress">IP Address</label>
+      <input type="text" id="ipAddress" placeholder="e.g. 10.0.0.1" />
+    </div>
+    <div class="form-group">
+      <label for="subnetMask">Subnet mask, e.g. 255.255.255.0</label>
+      <input type="text" id="subnetMask" />
+    </div>
+    <button class="btn" onclick="calculateSubnet();">Calculate</button>
+    <div id="subnetResults" class="results hidden"></div>
+  </div>
+</div>
 
-		<div class="main-container">
-			<div class="main wrapper clearfix">
+<footer class="main-footer">
+  <!-- Top Grid Row -->
+  <div class="footerrow">
+    <!-- Left Column: Logo + "Hacking for good" -->
+    <div class="yacklogofooter">
+      <a href="https://yack.one" target="_blank" alt="Yack Security website">
+        <img
+          src="./resources/img/YackOne_Logo-RBG-footer2.png"
+          alt="Yack Security logo"
+        >
+      </a>
+    </div>
 
-				<article>
-					<header>
-						<h1>Calculate IP Subnets and Netmasks</h1>
-						<p>Use these tools to calculate subnets and netmasks. Source at <a href='https://github.com/salieri/IPSubnetCalculator'>GitHub</a>.</p>
-						<p>Compatible with <a href='http://nodejs.org/'>Node.js</a> (Common-JS like) and direct use. See <a href='https://github.com/salieri/IPSubnetCalculator/blob/master/README.md'>readme</a> for instructions.</p>
-					</header>
+    <!-- Middle Column: Useful links -->
+    <div class="yackusefullinks">
+      <h5>USEFUL LINKS</h5>
+      <ul>
+        <li><a class="linkyackusefullinks" href="https://yack.one/en/about-us" target="_blank">About Us</a></li>
+        <li><a class="linkyackusefullinks" href="https://yack.one/en/our-pentest" target="_blank">Pentest</a></li>
+        <li><a class="linkyackusefullinks" href="https://yack.one/en/blogue" target="_blank">Blog</a></li>
+        <li><a class="linkyackusefullinks" href="https://yack.one/en/contact" target="_blank">Contact</a></li>
+      </ul>
+    </div>
 
-					<section>
-						<form id='ip_calculate_range' class='calculator'>
-							<h2>IP Range Mask Optimizer</h2>
+    <!-- Right Column: Contact info -->
+    <div class="yackfootercontact">
+      <h5>CONTACT</h5>
+      <ul>
+        <li>
+          <a
+            class="footercontactlink"
+            href="tel:14502820280"
+            alt="Yack Security phone"
+            target="_blank"
+          >
+            <span class="footercontacticon">
+              <img src="./resources/img/apple.svg">
+            </span>
+            <span class="footercontacttext">450-282-0280</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="footercontactlink"
+            href="mailto:info@yack.one"
+            alt="Yack Security Email"
+            target="_blank"
+          >
+            <span class="footercontacticon">
+              <img src="./resources/img/apple.svg">
+            </span>
+            <span class="footercontacttext">info@yack.one</span>
+          </a>
+        </li>
+        <li>
+          <div class="footerrowsocial">
+            <a href="https://link.yack.one/facebook" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://link.yack.one/twitter" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+            <a href="https://link.yack.one/linkedin" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://link.yack.one/github" target="_blank"><i class="fa-brands fa-github"></i></a>
+            <a href="https://pacman.yack.one" class="pacman_icon" target="_blank"><i class="fa-solid fa-ghost"></i></a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-							<p>This tool calculates optimal netmasks for covering any range of IP addresses.
-							Depending on the range of IP addresses entered, the result can be multiple masks.</p>
+  <!-- Bottom Row: purple divider + copyright -->
+  <div class="lastfooterrow">
+    <div class="copyrights">
+      <p>
+        @<span id="footerYear"></span> Yack. Made with ❤️
+      </p>
+      <p style="font-family: 'Montserrat', sans-serif;">
+        This project is a fork of
+        <a href="https://salieri.github.io/IPSubnetCalculator" target="_blank" alt="IPSubnetCalculator">IPSubnetCalculator</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+<!-- <footer>
+  <p>
+    Compatible with <a href="https://nodejs.org" target="_blank">Node.js</a> (CommonJS-like)
+    and direct use. See <a href="https://github.com/salieri/IPSubnetCalculator" target="_blank">
+    readme</a> for instructions. <br>
+    Source at GitHub:
+    <a href="https://github.com/salieri/IPSubnetCalculator" target="_blank">
+      IPSubnetCalculator
+    </a>
+  </p>
+</footer> -->
 
-							<input type='text' name='ip_calculate_range_start_ip' id='ip_calculate_range_start_ip' placeholder='IP range start value, e.g. 10.0.0.15' />
-							<input type='text' name='ip_calculate_range_end_ip' id='ip_calculate_range_end_ip' placeholder='IP range end value, e.g. 10.0.4.255' />
+<!-- Script references -->
+<script src="./lib/ip-subnet-calculator.js"></script>
+<script src="./lib/ip-subnet-calculator.browser.js"></script>
+<script>document.getElementById("footerYear").textContent = new Date().getFullYear();</script>
+<script>
+  // Dark/Light Mode Toggle
+  const themeToggleBtn = document.getElementById('themeToggle');
 
-							<input type='button' value='Calculate' id='ip_calculate_range_button' />
+  themeToggleBtn.addEventListener('click', () => {
+    // If dark-mode is on, switch to light-mode; else switch to dark-mode.
+    if (document.body.classList.contains('dark-mode')) {
+      document.body.classList.remove('dark-mode');
+      document.body.classList.add('light-mode');
+    } else {
+      document.body.classList.remove('light-mode');
+      document.body.classList.add('dark-mode');
+    }
+  });
 
-							<div class='result' id='ip_calculate_range_result' style='display: none;'></div>
-						</form>
-					</section>
+  // Function to format large numbers with spaces
+  function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  }
 
-					<section>
-						<form id='ip_calculate_cidr_mask' class='calculator'>
-							<h2>CIDR Subnet Mask Calculator</h2>
+  // Function to calculate IP range mask
+  function calculateRange() {
+    const rangeStart = document.getElementById('rangeStart').value;
+    const rangeEnd = document.getElementById('rangeEnd').value;
+    const results = IPSubnetCalculator.calculate(rangeStart, rangeEnd);
+    const resultsDiv = document.getElementById('rangeResults');
+    if (results) {
+        let grandTotal = 0;
+        const resultHTML = results.map(result => {
+            const totalHosts = result.ipHigh - result.ipLow + 1;
+            grandTotal += totalHosts;
+            return `
+                <p>${result.ipLowStr} - ${result.ipHighStr} /${result.prefixSize}</p>
+                <p>Total Hosts: ${formatNumber(totalHosts)}</p>
+            `;
+        }).join('');
 
-							<input type='text' name='ip_calculate_cidr_mask_ip' id='ip_calculate_cidr_mask_ip' placeholder='IP Address' />
+        resultsDiv.innerHTML = `
+            ${resultHTML}
+            <p style="margin-top: 1rem; border-top: 1px solid #666; padding-top: 0.5rem">
+                Grand Total Hosts: ${formatNumber(grandTotal)}
+            </p>
+        `;
+        resultsDiv.classList.remove('hidden');
+    } else {
+        resultsDiv.innerHTML = '<p>Invalid IP range.</p>';
+        resultsDiv.classList.remove('hidden');
+    }
+  }
 
-							<select name='ip_calculate_cidr_mask_mask' id='ip_calculate_cidr_mask_mask' placeholder='CIDR Subnet Mask'>
-								<option value='' disabled selected>Select Subnet Mask</option>
-								<option value='24'>/24</option>
-								<option value='16'>/16</option>
-								<option value='8'>/8</option>
-								<option value='' disabled>----------------------</option>
-								<option value='0'>/0</option>
-								<option value='1'>/1</option>
-								<option value='2'>/2</option>
-								<option value='3'>/3</option>
-								<option value='4'>/4</option>
-								<option value='5'>/5</option>
-								<option value='6'>/6</option>
-								<option value='7'>/7</option>
-								<option value='8'>/8</option>
-								<option value='9'>/9</option>
-								<option value='10'>/10</option>
-								<option value='11'>/11</option>
-								<option value='12'>/12</option>
-								<option value='13'>/13</option>
-								<option value='14'>/14</option>
-								<option value='15'>/15</option>
-								<option value='16'>/16</option>
-								<option value='17'>/17</option>
-								<option value='18'>/18</option>
-								<option value='19'>/19</option>
-								<option value='20'>/20</option>
-								<option value='21'>/21</option>
-								<option value='22'>/22</option>
-								<option value='23'>/23</option>
-								<option value='24'>/24</option>
-								<option value='25'>/25</option>
-								<option value='26'>/26</option>
-								<option value='27'>/27</option>
-								<option value='28'>/28</option>
-								<option value='29'>/29</option>
-								<option value='30'>/30</option>
-								<option value='31'>/31</option>
-								<option value='32'>/32</option>
-							</select>
+  // Function to calculate CIDR subnet
+  function calculateCIDR() {
+    const cidrAddress = document.getElementById('cidrAddress').value;
+    const cidrMask = document.getElementById('cidrMask').value;
+    const result = IPSubnetCalculator.calculateSubnetMask(cidrAddress, parseInt(cidrMask, 10));
+    const resultsDiv = document.getElementById('cidrResults');
+    if (result) {
+      const totalHosts = result.ipHigh - result.ipLow + 1;
+      resultsDiv.innerHTML = `
+        <p>Subnet: ${result.ipLowStr} - ${result.ipHighStr}</p>
+        <p>Mask: ${result.prefixMaskStr}</p>
+        <p>Total Hosts: ${formatNumber(totalHosts)}</p>
+      `;
+      resultsDiv.classList.remove('hidden');
+    } else {
+      resultsDiv.innerHTML = '<p>Invalid CIDR input.</p>';
+      resultsDiv.classList.remove('hidden');
+    }
+  }
 
-							<input type='button' value='Calculate' id='ip_calculate_cidr_mask_button' />
-
-							<div class='result' id='ip_calculate_cidr_mask_result' style='display: none;'></div>
-						</form>
-					</section>
-
-					<section>
-						<form id='ip_calculate_mask' class='calculator'>
-							<h2>Subnet Mask Calculator</h2>
-
-							<input type='text' name='ip_calculate_mask_ip' id='ip_calculate_mask_ip' placeholder='IP Address' />
-							<input type='text' name='ip_calculate_mask_mask' id='ip_calculate_mask_mask' placeholder='Subnet mask, e.g. 255.255.255.0' />
-
-							<input type='button' value='Calculate' id='ip_calculate_mask_button' />
-
-							<div class='result' id='ip_calculate_mask_result' style='display: none;'></div>
-						</form>
-					</section>
-
-				</article>
-
-			</div> <!-- #main -->
-		</div> <!-- #main-container -->
-
-		<div class="footer-container">
-			<footer class="wrapper">
-				<h3>Source at GitHub: <a href='https://github.com/salieri/IPSubnetCalculator'>IPSubnetCalculator</a></h3>
-			</footer>
-		</div>
-
-    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
-    <script src="./lib/ip-subnet-calculator.browser.js"></script>
-    <script src="./resources/js/ui.js"></script>
-	</body>
+  // Function to calculate subnet mask
+  function calculateSubnet() {
+    const ipAddress = document.getElementById('ipAddress').value;
+    const subnetMask = document.getElementById('subnetMask').value;
+    const result = IPSubnetCalculator.calculateCIDRPrefix(ipAddress, subnetMask);
+    const resultsDiv = document.getElementById('subnetResults');
+    if (result) {
+      const totalHosts = result.ipHigh - result.ipLow + 1;
+      resultsDiv.innerHTML = `
+        <p>Subnet: ${result.ipLowStr} - ${result.ipHighStr}</p>
+        <p>Prefix: /${result.prefixSize}</p>
+        <p>Total Hosts: ${formatNumber(totalHosts)}</p>
+      `;
+      resultsDiv.classList.remove('hidden');
+    } else {
+      resultsDiv.innerHTML = '<p>Invalid subnet mask input.</p>';
+      resultsDiv.classList.remove('hidden');
+    }
+  }
+</script>
+</body>
 </html>

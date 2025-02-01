@@ -1,0 +1,458 @@
+/* --------------------
+       Base & Reset
+    -------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Montserrat", sans-serif;
+}
+
+/*
+  We'll define the Light Theme in .light-mode,
+  but the default (:root) will be Dark Mode.
+  So the site starts in Dark Mode (body has class="dark-mode").
+  If we remove "dark-mode" and add "light-mode", it swaps to light.
+*/
+
+/* ========================
+   Default: DARK THEME
+======================== */
+:root {
+  --bg-color: #181818;
+  --text-color: #ffffff;
+  --card-bg: #231f20;
+  --header-bg: #231f20;
+  --results-bg: #2a2a2a;
+  --footer-text: #999999;
+  --shadow-color: rgba(255, 255, 255, 0.1);
+}
+
+/*
+  When we switch to LIGHT MODE,
+  override these variables inside .light-mode
+*/
+body.light-mode {
+  --bg-color: #f5f5f5;
+  --text-color: #231f20;
+  --card-bg: #ffffff;
+  --header-bg: #7a00f9;
+  --results-bg: #fafafa;
+  --footer-text: #757575;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* --------------------
+   App Bar
+-------------------- */
+header {
+  background-color: var(--header-bg);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Moby";
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+/*
+  Dark/Light Toggle Button with Material Icons.
+  We'll show the sun (for "light_mode") in dark mode
+  and the moon (for "dark_mode") in light mode.
+*/
+.mode-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.material-icons {
+  font-size: 24px;
+  color: #fff;
+  transition: color 0.3s;
+}
+
+/*
+  By default (dark mode), show the sun, hide the moon.
+  In .light-mode, do the opposite.
+*/
+#sunIcon {
+  display: inline;
+  /* visible in dark mode by default */
+  color: #FFEB3B;
+}
+
+#moonIcon {
+  display: none;
+}
+
+body.light-mode #sunIcon {
+  display: none;
+}
+
+body.light-mode #moonIcon {
+  display: inline;
+}
+
+/* --------------------
+       Main Container
+    -------------------- */
+.container {
+  max-width: 1080px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* --------------------
+       Material Card
+    -------------------- */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px var(--shadow-color);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.card p {
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  opacity: 0.87;
+}
+
+/* --------------------
+       Form Groups
+    -------------------- */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form-group input[type="text"],
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #999;
+}
+
+/* --------------------
+       Buttons
+    -------------------- */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  background-color: #7a00f9;
+  /* Keep same accent color for both themes */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: "Montserrat", sans-serif;
+}
+
+.btn:hover {
+  background-color: #3beabc;
+  color: #181818;
+}
+
+.btn:active {
+  opacity: 0.8;
+}
+
+/* --------------------
+       Results
+    -------------------- */
+.results {
+  margin-top: 1rem;
+  background: var(--results-bg);
+  border-left: 4px solid #ff0049;
+  padding: 1rem;
+  transition: background-color 0.3s;
+}
+
+@media (min-width: 1120px) {
+  .footerrow {
+    .pacman_icon {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+  }
+
+  .footerrow:hover {
+    .pacman_icon {
+      opacity: 1;
+    }
+  }
+}
+.hidden {
+  display: none;
+}
+
+/* --------------------
+       Footer
+    -------------------- */
+/* footer {
+      text-align: center;
+      color: var(--footer-text);
+      padding: 1rem;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      transition: color 0.3s;
+    }
+    footer a {
+      color: #6200EE;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    } */
+
+/* --------------------
+       Responsive
+    -------------------- */
+@media (max-width: 768px) {
+  header {
+    padding: 1rem;
+  }
+  header h1 {
+    font-size: 1rem;
+  }
+
+  .container {
+    margin: 1rem auto;
+  }
+
+  .logo-default {
+    display: none; /* Hide the default logo */
+  }
+  .logo-small {
+    display: block !important; /* Show the small screen logo */
+  }
+}
+
+/*== footer ==*/
+.main-footer {
+  background-color: #181818;
+  width: 100%;
+  color: #ffffff;
+  font-family: "Montserrat", sans-serif;
+  padding-top: 4rem;
+}
+
+/* Top row: 3 columns */
+.footerrow {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Left Column (logo + hacking block) */
+.yacklogofooter img {
+  /* max-height: 90px; */
+  max-width: 300px;
+}
+
+.hacking-for-good {
+  margin-top: 1rem;
+  background-color: #7a00f9;
+  color: #ffffff;
+  font-family: "Moby", sans-serif;
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+/* Middle Column: "USEFUL LINKS" */
+.yackusefullinks {
+  padding-left: 3em;
+}
+.yackusefullinks h5 {
+  font-family: "Moby";
+  color: #3beabc;
+  font-size: 18px;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.yackusefullinks ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.yackusefullinks li {
+  margin-bottom: 1rem;
+}
+
+.yackusefullinks a {
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.yackusefullinks a:hover {
+  color: #7a00f9;
+}
+
+/* Right Column: "CONTACT" */
+.yackfootercontact h5 {
+  font-family: "Moby";
+  color: #3beabc;
+  font-size: 18px;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.yackfootercontact ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.yackfootercontact li {
+  margin-bottom: 1rem;
+}
+
+.footercontactlink {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.footercontactlink:hover {
+  color: #7a00f9;
+}
+
+.footercontacticon {
+  margin-right: 0.5rem;
+}
+
+.footercontacticon img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Social icons row */
+.footerrowsocial {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footerrowsocial a {
+  color: #3beabc;
+  font-size: 20px;
+  transition: color 0.2s ease;
+}
+
+.footerrowsocial a:hover {
+  color: #7a00f9;
+}
+
+/* Bottom row: purple divider + copyright */
+.lastfooterrow {
+  border-top: 2px solid #7a00f9;
+  margin-top: 2rem;
+  padding: 1rem 0;
+  width: 100%;
+  text-align: center;
+  background-color: #0f0f0f;
+}
+
+.copyrights {
+  font-family: "Moby";
+  font-size: 13px;
+}
+
+.lastfooterrow p {
+  margin: 0.25rem 0;
+}
+
+.lastfooterrow a {
+  color: #7a00f9;
+  text-decoration: none;
+}
+
+.lastfooterrow a:hover {
+  color: #3beabc;
+}
+
+/* Responsive: single column on small screens */
+@media (max-width: 768px) {
+  .footerrow {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  .yackusefullinks {
+    padding-left: 0em;
+  }
+  .footercontactlink {
+    justify-content: center;
+  }
+  .footerrowsocial{
+    margin-top: 2em;
+    justify-content: center;
+  }
+
+  .hacking-for-good {
+    display: inline-block;
+    margin: 1rem auto 0 auto;
+  }
+}
