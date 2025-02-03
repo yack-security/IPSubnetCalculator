@@ -262,19 +262,28 @@ body.light-mode #moonIcon {
   header {
     padding: 1rem;
   }
+
   header h1 {
     font-size: 1rem;
+    display: none;
+  }
+
+  .logo-default {
+    display: none;
+  }
+
+  .logo-small {
+    display: block !important;  /* Show the small logo */
+  }
+
+  /* Center the small logo and theme toggle */
+  header {
+    justify-content: space-between;
+    align-items: center;
   }
 
   .container {
     margin: 1rem auto;
-  }
-
-  .logo-default {
-    display: none; /* Hide the default logo */
-  }
-  .logo-small {
-    display: block !important; /* Show the small screen logo */
   }
 }
 
@@ -455,4 +464,16 @@ body.light-mode #moonIcon {
     display: inline-block;
     margin: 1rem auto 0 auto;
   }
+}
+
+/* Add these styles for the logos */
+.logo-default {
+    width: 110px;
+    height: 35px;
+}
+
+.logo-small {
+    width: 35px;
+    height: 35px;
+    display: none;  /* Hidden by default */
 }
