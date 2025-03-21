@@ -72,6 +72,9 @@
         <option value="16">/16</option>
         <option value="24">/24</option>
         <option value="26">/26</option>
+        <option value="27">/27</option>
+        <option value="28">/28</option>
+        <option value="29">/29</option>
         <option value="30">/30</option>
       </select>
     </div>
@@ -220,19 +223,26 @@
     const resultsDiv = document.getElementById('rangeResults');
     if (results) {
         let grandTotal = 0;
+        let grandTotalUsable = 0;
         const resultHTML = results.map(result => {
             const totalHosts = result.ipHigh - result.ipLow + 1;
+            // For /31 networks, there are 2 usable hosts (RFC 3021)
+            // For /32 networks, there is 1 usable host
+            let usableHosts = result.prefixSize >= 31 ? totalHosts : Math.max(0, totalHosts - 2);
             grandTotal += totalHosts;
+            grandTotalUsable += usableHosts;
             return `
                 <p>${result.ipLowStr} - ${result.ipHighStr} /${result.prefixSize}</p>
                 <p>Total Hosts: ${formatNumber(totalHosts)}</p>
+                <p>Usable Hosts: ${formatNumber(usableHosts)}</p>
             `;
         }).join('');
 
         resultsDiv.innerHTML = `
             ${resultHTML}
             <p style="margin-top: 1rem; border-top: 1px solid #666; padding-top: 0.5rem">
-                Grand Total Hosts: ${formatNumber(grandTotal)}
+                Grand Total Usable Hosts: ${formatNumber(grandTotalUsable)}
+                Grand Total Hosts: ${formatNumber(grandTotal)}<br>
             </p>
         `;
         resultsDiv.classList.remove('hidden');
@@ -250,10 +260,14 @@
     const resultsDiv = document.getElementById('cidrResults');
     if (result) {
       const totalHosts = result.ipHigh - result.ipLow + 1;
+      // For /31 networks, there are 2 usable hosts (RFC 3021)
+      // For /32 networks, there is 1 usable host
+      const usableHosts = result.prefixSize >= 31 ? totalHosts : Math.max(0, totalHosts - 2);
       resultsDiv.innerHTML = `
         <p>Subnet: ${result.ipLowStr} - ${result.ipHighStr}</p>
         <p>Mask: ${result.prefixMaskStr}</p>
         <p>Total Hosts: ${formatNumber(totalHosts)}</p>
+        <p>Usable Hosts: ${formatNumber(usableHosts)}</p>
       `;
       resultsDiv.classList.remove('hidden');
     } else {
@@ -270,9 +284,13 @@
     const resultsDiv = document.getElementById('subnetResults');
     if (result) {
       const totalHosts = result.ipHigh - result.ipLow + 1;
+      // For /31 networks, there are 2 usable hosts (RFC 3021)
+      // For /32 networks, there is 1 usable host
+      const usableHosts = result.prefixSize >= 31 ? totalHosts : Math.max(0, totalHosts - 2);
       resultsDiv.innerHTML = `
         <p>Subnet: ${result.ipLowStr} - ${result.ipHighStr}</p>
         <p>Prefix: /${result.prefixSize}</p>
+        <p>Usable Hosts: ${formatNumber(usableHosts)}</p>
         <p>Total Hosts: ${formatNumber(totalHosts)}</p>
       `;
       resultsDiv.classList.remove('hidden');
