@@ -233,8 +233,8 @@
             grandTotalUsable += usableHosts;
             return `
                 <p>${result.ipLowStr} - ${result.ipHighStr} /${result.prefixSize}</p>
-                <p>Total Hosts: ${formatNumber(totalHosts)}</p>
                 <p>Usable Hosts: ${formatNumber(usableHosts)}</p>
+                <p>Total Hosts: ${formatNumber(totalHosts)}</p>
             `;
         }).join('');
 
@@ -266,8 +266,8 @@
       resultsDiv.innerHTML = `
         <p>Subnet: ${result.ipLowStr} - ${result.ipHighStr}</p>
         <p>Mask: ${result.prefixMaskStr}</p>
-        <p>Total Hosts: ${formatNumber(totalHosts)}</p>
         <p>Usable Hosts: ${formatNumber(usableHosts)}</p>
+        <p>Total Hosts: ${formatNumber(totalHosts)}</p>p>
       `;
       resultsDiv.classList.remove('hidden');
     } else {
