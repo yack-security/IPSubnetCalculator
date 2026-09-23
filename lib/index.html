@@ -1,185 +1,171 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>IP Subnet Netmask Calculator</title>
-	<link rel="shortcut icon" href="./img/favicon.ico">
+  <head>
+    <meta charset="UTF-8" />
+    <title>IP Subnet Netmask Calculator</title>
+    <link rel="shortcut icon" href="./img/favicon.ico" />
 
-  <!-- Material-ish Fonts & Basic Reset -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
-    rel="stylesheet"
-  />
-  <!-- Google Material Icons -->
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-  />
-	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-	<link href="https://use.typekit.net/rur5rja.css" rel="stylesheet">
-	<link rel="stylesheet" href="./custom.css">
-</head>
+    <!-- Material-ish Fonts & Basic Reset -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <!-- Google Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link href="https://use.typekit.net/rur5rja.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./custom.css" />
+  </head>
 
-<body class="dark-mode">
-<!-- App Bar -->
-<header>
-	<img src="./img/Yack_LogoRond_darkmode.svg" alt="Yack Security logo" class="logo-default">
-  <img src="./img/Yack_LogoTagRond-MauveBlanc-04.svg" alt="Yack Security logo small" class="logo-small">
-  <h1>IP Subnet Netmask Calculator</h1>
+  <body class="dark-mode">
+    <!-- App Bar -->
+    <header>
+      <img src="./img/Yack_LogoRond_darkmode.svg" alt="Yack Security logo" class="logo-default" />
+      <img src="./img/Yack_LogoTagRond-MauveBlanc-04.svg" alt="Yack Security logo small" class="logo-small" />
+      <h1>IP Subnet Netmask Calculator</h1>
 
-  <!-- Dark/Light Toggle Button with Material Icons -->
-  <button class="mode-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
-    <span class="material-icons" id="sunIcon">light_mode</span>
-    <span class="material-icons" id="moonIcon">dark_mode</span>
-  </button>
-</header>
+      <!-- Dark/Light Toggle Button with Material Icons -->
+      <button class="mode-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+        <span class="material-icons" id="sunIcon">light_mode</span>
+        <span class="material-icons" id="moonIcon">dark_mode</span>
+      </button>
+    </header>
 
-<div class="container">
-  <!-- IP Range Mask Optimizer -->
-  <div class="card">
-    <h2>IP Range Mask Optimizer</h2>
-    <p>
-      This tool calculates optimal netmasks for covering any range of IP addresses.
-      Depending on the range of IP addresses entered, the result can be multiple masks.
-    </p>
-    <div class="form-group">
-      <label for="rangeStart">IP range start value, e.g. 10.0.0.1</label>
-      <input type="text" id="rangeStart" />
-    </div>
-    <div class="form-group">
-      <label for="rangeEnd">IP range end value, e.g. 10.0.4.255</label>
-      <input type="text" id="rangeEnd" />
-    </div>
-    <button class="btn" onclick="calculateRange();">Calculate</button>
-    <div id="rangeResults" class="results hidden"></div>
-  </div>
+    <div class="container">
+      <!-- IP Range Mask Optimizer -->
+      <div class="card">
+        <h2>IP Range Mask Optimizer</h2>
+        <p>
+          This tool calculates optimal netmasks for covering any range of IP addresses. Depending on the range of IP
+          addresses entered, the result can be multiple masks.
+        </p>
+        <div class="form-group">
+          <label for="rangeStart">IP range start value, e.g. 10.0.0.1</label>
+          <input type="text" id="rangeStart" />
+        </div>
+        <div class="form-group">
+          <label for="rangeEnd">IP range end value, e.g. 10.0.4.255</label>
+          <input type="text" id="rangeEnd" />
+        </div>
+        <button class="btn" onclick="calculateRange();">Calculate</button>
+        <div id="rangeResults" class="results hidden"></div>
+      </div>
 
-  <!-- CIDR Subnet Mask Calculator -->
-  <div class="card">
-    <h2>CIDR Subnet Mask Calculator</h2>
-    <p>Enter an IP and select a subnet mask to calculate the resulting subnet.</p>
-    <div class="form-group">
-      <label for="cidrAddress">IP Address</label>
-      <input type="text" id="cidrAddress" placeholder="e.g. 10.0.0.1" />
-    </div>
-    <div class="form-group">
-      <label for="cidrMask">Select Subnet Mask</label>
-      <select id="cidrMask">
-        <option value="">-- Choose one --</option>
-        <option value="8">/8</option>
-        <option value="16">/16</option>
-        <option value="24">/24</option>
-        <option value="26">/26</option>
-        <option value="27">/27</option>
-        <option value="28">/28</option>
-        <option value="29">/29</option>
-        <option value="30">/30</option>
-      </select>
-    </div>
-    <button class="btn" onclick="calculateCIDR();">Calculate</button>
-    <div id="cidrResults" class="results hidden"></div>
-  </div>
+      <!-- CIDR Subnet Mask Calculator -->
+      <div class="card">
+        <h2>CIDR Subnet Mask Calculator</h2>
+        <p>Enter an IP and select a subnet mask to calculate the resulting subnet.</p>
+        <div class="form-group">
+          <label for="cidrAddress">IP Address</label>
+          <input type="text" id="cidrAddress" placeholder="e.g. 10.0.0.1" />
+        </div>
+        <div class="form-group">
+          <label for="cidrMask">Select Subnet Mask</label>
+          <select id="cidrMask">
+            <option value="">-- Choose one --</option>
+            <option value="8">/8</option>
+            <option value="16">/16</option>
+            <option value="24">/24</option>
+            <option value="26">/26</option>
+            <option value="27">/27</option>
+            <option value="28">/28</option>
+            <option value="29">/29</option>
+            <option value="30">/30</option>
+          </select>
+        </div>
+        <button class="btn" onclick="calculateCIDR();">Calculate</button>
+        <div id="cidrResults" class="results hidden"></div>
+      </div>
 
-  <!-- Subnet Mask Calculator -->
-  <div class="card">
-    <h2>Subnet Mask Calculator</h2>
-    <p>Enter an IP address and a subnet mask (e.g. 255.255.255.0) to see network details.</p>
-    <div class="form-group">
-      <label for="ipAddress">IP Address</label>
-      <input type="text" id="ipAddress" placeholder="e.g. 10.0.0.1" />
-    </div>
-    <div class="form-group">
-      <label for="subnetMask">Subnet mask, e.g. 255.255.255.0</label>
-      <input type="text" id="subnetMask" />
-    </div>
-    <button class="btn" onclick="calculateSubnet();">Calculate</button>
-    <div id="subnetResults" class="results hidden"></div>
-  </div>
-</div>
-
-<footer class="main-footer">
-  <!-- Top Grid Row -->
-  <div class="footerrow">
-    <!-- Left Column: Logo + "Hacking for good" -->
-    <div class="yacklogofooter">
-      <a href="https://yack.one" target="_blank" alt="Yack Security website">
-        <img
-          src="./img/YackOne_Logo-RBG-footer2.png"
-          alt="Yack Security logo"
-        >
-      </a>
+      <!-- Subnet Mask Calculator -->
+      <div class="card">
+        <h2>Subnet Mask Calculator</h2>
+        <p>Enter an IP address and a subnet mask (e.g. 255.255.255.0) to see network details.</p>
+        <div class="form-group">
+          <label for="ipAddress">IP Address</label>
+          <input type="text" id="ipAddress" placeholder="e.g. 10.0.0.1" />
+        </div>
+        <div class="form-group">
+          <label for="subnetMask">Subnet mask, e.g. 255.255.255.0</label>
+          <input type="text" id="subnetMask" />
+        </div>
+        <button class="btn" onclick="calculateSubnet();">Calculate</button>
+        <div id="subnetResults" class="results hidden"></div>
+      </div>
     </div>
 
-    <!-- Middle Column: Useful links -->
-    <div class="yackusefullinks">
-      <h5>USEFUL LINKS</h5>
-      <ul>
-        <li><a class="linkyackusefullinks" href="https://yack.one/en/about-us" target="_blank">About Us</a></li>
-        <li><a class="linkyackusefullinks" href="https://yack.one/en/our-pentest" target="_blank">Pentest</a></li>
-        <li><a class="linkyackusefullinks" href="https://yack.one/en/blogue" target="_blank">Blog</a></li>
-        <li><a class="linkyackusefullinks" href="https://yack.one/en/contact" target="_blank">Contact</a></li>
-      </ul>
-    </div>
-
-    <!-- Right Column: Contact info -->
-    <div class="yackfootercontact">
-      <h5>CONTACT</h5>
-      <ul>
-        <li>
-          <a
-            class="footercontactlink"
-            href="tel:14502820280"
-            alt="Yack Security phone"
-            target="_blank"
-          >
-            <span class="footercontacticon">
-              <img src="./img/apple.svg">
-            </span>
-            <span class="footercontacttext">450-282-0280</span>
+    <footer class="main-footer">
+      <!-- Top Grid Row -->
+      <div class="footerrow">
+        <!-- Left Column: Logo + "Hacking for good" -->
+        <div class="yacklogofooter">
+          <a href="https://yack.one" target="_blank" alt="Yack Security website">
+            <img src="./img/YackOne_Logo-RBG-footer2.png" alt="Yack Security logo" />
           </a>
-        </li>
-        <li>
-          <a
-            class="footercontactlink"
-            href="mailto:info@yack.one"
-            alt="Yack Security Email"
-            target="_blank"
-          >
-            <span class="footercontacticon">
-              <img src="./img/apple.svg">
-            </span>
-            <span class="footercontacttext">info@yack.one</span>
-          </a>
-        </li>
-        <li>
-          <div class="footerrowsocial">
-            <a href="https://link.yack.one/facebook" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="https://link.yack.one/twitter" target="_blank"><i class="fa-brands fa-twitter"></i></a>
-            <a href="https://link.yack.one/linkedin" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-            <a href="https://link.yack.one/github" target="_blank"><i class="fa-brands fa-github"></i></a>
-            <a href="https://pacman.yack.one" class="pacman_icon" target="_blank"><i class="fa-solid fa-ghost"></i></a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
+        </div>
 
-  <!-- Bottom Row: purple divider + copyright -->
-  <div class="lastfooterrow">
-    <div class="copyrights">
-      <p>
-        @<span id="footerYear"></span> Yack. Made with ❤️
-      </p>
-      <p style="font-family: 'Montserrat', sans-serif;">
-        This project is a fork of
-        <a href="https://salieri.github.io/IPSubnetCalculator" target="_blank" alt="IPSubnetCalculator">IPSubnetCalculator</a>.
-      </p>
-    </div>
-  </div>
-</footer>
-<!-- <footer>
+        <!-- Middle Column: Useful links -->
+        <div class="yackusefullinks">
+          <h5>USEFUL LINKS</h5>
+          <ul>
+            <li><a class="linkyackusefullinks" href="https://yack.one/en/about-us" target="_blank">About Us</a></li>
+            <li><a class="linkyackusefullinks" href="https://yack.one/en/our-pentest" target="_blank">Pentest</a></li>
+            <li><a class="linkyackusefullinks" href="https://yack.one/en/blogue" target="_blank">Blog</a></li>
+            <li><a class="linkyackusefullinks" href="https://yack.one/en/contact" target="_blank">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Right Column: Contact info -->
+        <div class="yackfootercontact">
+          <h5>CONTACT</h5>
+          <ul>
+            <li>
+              <a class="footercontactlink" href="tel:14502820280" alt="Yack Security phone" target="_blank">
+                <span class="footercontacticon">
+                  <img src="./img/apple.svg" />
+                </span>
+                <span class="footercontacttext">450-282-0280</span>
+              </a>
+            </li>
+            <li>
+              <a class="footercontactlink" href="mailto:info@yack.one" alt="Yack Security Email" target="_blank">
+                <span class="footercontacticon">
+                  <img src="./img/apple.svg" />
+                </span>
+                <span class="footercontacttext">info@yack.one</span>
+              </a>
+            </li>
+            <li>
+              <div class="footerrowsocial">
+                <a href="https://link.yack.one/facebook" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://link.yack.one/twitter" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+                <a href="https://link.yack.one/linkedin" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://link.yack.one/github" target="_blank"><i class="fa-brands fa-github"></i></a>
+                <a href="https://pacman.yack.one" class="pacman_icon" target="_blank"
+                  ><i class="fa-solid fa-ghost"></i
+                ></a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom Row: purple divider + copyright -->
+      <div class="lastfooterrow">
+        <div class="copyrights">
+          <p>@<span id="footerYear"></span> Yack. Made with ❤️</p>
+          <p style="font-family: 'Montserrat', sans-serif">
+            This project is a fork of
+            <a href="https://salieri.github.io/IPSubnetCalculator" target="_blank" alt="IPSubnetCalculator"
+              >IPSubnetCalculator</a
+            >.
+          </p>
+        </div>
+      </div>
+    </footer>
+    <!-- <footer>
   <p>
     Compatible with <a href="https://nodejs.org" target="_blank">Node.js</a> (CommonJS-like)
     and direct use. See <a href="https://github.com/salieri/IPSubnetCalculator" target="_blank">
@@ -191,120 +177,119 @@
   </p>
 </footer> -->
 
-<!-- Script references -->
-<script src="./ip-subnet-calculator.js"></script>
-<script src="./ip-subnet-calculator.browser.js"></script>
-<script>document.getElementById("footerYear").textContent = new Date().getFullYear();</script>
-<script>
-  // Dark/Light Mode Toggle
-  const themeToggleBtn = document.getElementById('themeToggle');
+    <!-- Script references -->
+    <script src="./ip-subnet-calculator.js"></script>
+    <script src="./ip-subnet-calculator.browser.js"></script>
+    <script>
+      document.getElementById('footerYear').textContent = new Date().getFullYear();
+    </script>
+    <script>
+      // Dark/Light Mode Toggle
+      const themeToggleBtn = document.getElementById('themeToggle');
 
-  themeToggleBtn.addEventListener('click', () => {
-    // If dark-mode is on, switch to light-mode; else switch to dark-mode.
-    if (document.body.classList.contains('dark-mode')) {
-      document.body.classList.remove('dark-mode');
-      document.body.classList.add('light-mode');
-    } else {
-      document.body.classList.remove('light-mode');
-      document.body.classList.add('dark-mode');
-    }
-  });
+      themeToggleBtn.addEventListener('click', () => {
+        // If dark-mode is on, switch to light-mode; else switch to dark-mode.
+        if (document.body.classList.contains('dark-mode')) {
+          document.body.classList.remove('dark-mode');
+          document.body.classList.add('light-mode');
+        } else {
+          document.body.classList.remove('light-mode');
+          document.body.classList.add('dark-mode');
+        }
+      });
 
-  // Function to format large numbers with spaces
-  function formatNumber(num) {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-  }
+      // Function to format large numbers with spaces
+      function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      }
 
-  // Function to calculate IP range mask
-  function calculateRange() {
-    const rangeStart = document.getElementById('rangeStart').value;
-    const rangeEnd = document.getElementById('rangeEnd').value;
-    const results = IPSubnetCalculator.calculate(rangeStart, rangeEnd);
-    const resultsDiv = document.getElementById('rangeResults');
-    if (results) {
-        let grandTotal = 0;
-        let grandTotalUsable = 0;
-        const resultHTML = results.map(result => {
-            const totalHosts = result.ipHigh - result.ipLow + 1;
-            // For /31 networks, there are 2 usable hosts (RFC 3021)
-            // For /32 networks, there is 1 usable host
-            let usableHosts = result.prefixSize >= 31 ? totalHosts : Math.max(0, totalHosts - 2);
-            grandTotal += totalHosts;
-            grandTotalUsable += usableHosts;
-            return `
+      // Function to calculate IP range mask
+      function calculateRange() {
+        const rangeStart = document.getElementById('rangeStart').value;
+        const rangeEnd = document.getElementById('rangeEnd').value;
+        const results = IPSubnetCalculator.calculate(rangeStart, rangeEnd);
+        const resultsDiv = document.getElementById('rangeResults');
+        if (results) {
+          let grandTotal = 0;
+          let grandTotalUsable = 0;
+          const resultHTML = results
+            .map((result) => {
+              const totalHosts = result.ipHigh - result.ipLow + 1;
+              // For /31 networks, there are 2 usable hosts (RFC 3021)
+              // For /32 networks, there is 1 usable host
+              let usableHosts = result.prefixSize >= 31 ? totalHosts : Math.max(0, totalHosts - 2);
+              grandTotal += totalHosts;
+              grandTotalUsable += usableHosts;
+              return `
                 <p>${result.ipLowStr} - ${result.ipHighStr} /${result.prefixSize}</p>
                 <p>Usable Hosts: ${formatNumber(usableHosts)}</p>
                 <p>Total Hosts: ${formatNumber(totalHosts)}</p>
             `;
-        }).join('');
+            })
+            .join('');
 
-        resultsDiv.innerHTML = `
+          resultsDiv.innerHTML = `
             ${resultHTML}
             <p style="margin-top: 1rem; border-top: 1px solid #666; padding-top: 0.5rem">
                 Grand Total Usable Hosts: ${formatNumber(grandTotalUsable)}
                 Grand Total Hosts: ${formatNumber(grandTotal)}<br>
             </p>
         `;
-        resultsDiv.classList.remove('hidden');
-    } else {
-        resultsDiv.innerHTML = '<p>Invalid IP range.</p>';
-        resultsDiv.classList.remove('hidden');
-    }
-  }
+          resultsDiv.classList.remove('hidden');
+        } else {
+          resultsDiv.innerHTML = '<p>Invalid IP range.</p>';
+          resultsDiv.classList.remove('hidden');
+        }
+      }
 
-  // Function to calculate CIDR subnet
-  function calculateCIDR() {
-    const cidrAddress = document.getElementById('cidrAddress').value;
-    const cidrMask = document.getElementById('cidrMask').value;
-    const result = IPSubnetCalculator.calculateSubnetMask(cidrAddress, parseInt(cidrMask, 10));
-    const resultsDiv = document.getElementById('cidrResults');
-    if (result) {
-      const totalHosts = result.ipHigh - result.ipLow + 1;
-      // For /31 networks, there are 2 usable hosts (RFC 3021)
-      // For /32 networks, there is 1 usable host
-      const usableHosts = result.prefixSize >= 31 ? totalHosts : Math.max(0, totalHosts - 2);
-      resultsDiv.innerHTML = `
+      // Function to calculate CIDR subnet
+      function calculateCIDR() {
+        const cidrAddress = document.getElementById('cidrAddress').value;
+        const cidrMask = document.getElementById('cidrMask').value;
+        const result = IPSubnetCalculator.calculateSubnetMask(cidrAddress, parseInt(cidrMask, 10));
+        const resultsDiv = document.getElementById('cidrResults');
+        if (result) {
+          const totalHosts = result.ipHigh - result.ipLow + 1;
+          // For /31 networks, there are 2 usable hosts (RFC 3021)
+          // For /32 networks, there is 1 usable host
+          const usableHosts = result.prefixSize >= 31 ? totalHosts : Math.max(0, totalHosts - 2);
+          resultsDiv.innerHTML = `
         <p>Subnet: ${result.ipLowStr} - ${result.ipHighStr}</p>
         <p>Mask: ${result.prefixMaskStr}</p>
         <p>Usable Hosts: ${formatNumber(usableHosts)}</p>
         <p>Total Hosts: ${formatNumber(totalHosts)}</p>
       `;
-      resultsDiv.classList.remove('hidden');
-    } else {
-      resultsDiv.innerHTML = '<p>Invalid CIDR input.</p>';
-      resultsDiv.classList.remove('hidden');
-    }
-  }
+          resultsDiv.classList.remove('hidden');
+        } else {
+          resultsDiv.innerHTML = '<p>Invalid CIDR input.</p>';
+          resultsDiv.classList.remove('hidden');
+        }
+      }
 
-  // Function to calculate subnet mask
-  function calculateSubnet() {
-    const ipAddress = document.getElementById('ipAddress').value;
-    const subnetMask = document.getElementById('subnetMask').value;
-    const result = IPSubnetCalculator.calculateCIDRPrefix(ipAddress, subnetMask);
-    const resultsDiv = document.getElementById('subnetResults');
-    if (result) {
-      const totalHosts = result.ipHigh - result.ipLow + 1;
-      // For /31 networks, there are 2 usable hosts (RFC 3021)
-      // For /32 networks, there is 1 usable host
-      const usableHosts = result.prefixSize >= 31 ? totalHosts : Math.max(0, totalHosts - 2);
-      resultsDiv.innerHTML = `
+      // Function to calculate subnet mask
+      function calculateSubnet() {
+        const ipAddress = document.getElementById('ipAddress').value;
+        const subnetMask = document.getElementById('subnetMask').value;
+        const result = IPSubnetCalculator.calculateCIDRPrefix(ipAddress, subnetMask);
+        const resultsDiv = document.getElementById('subnetResults');
+        if (result) {
+          const totalHosts = result.ipHigh - result.ipLow + 1;
+          // For /31 networks, there are 2 usable hosts (RFC 3021)
+          // For /32 networks, there is 1 usable host
+          const usableHosts = result.prefixSize >= 31 ? totalHosts : Math.max(0, totalHosts - 2);
+          resultsDiv.innerHTML = `
         <p>Subnet: ${result.ipLowStr} - ${result.ipHighStr}</p>
         <p>Prefix: /${result.prefixSize}</p>
         <p>Usable Hosts: ${formatNumber(usableHosts)}</p>
         <p>Total Hosts: ${formatNumber(totalHosts)}</p>
       `;
-      resultsDiv.classList.remove('hidden');
-    } else {
-      resultsDiv.innerHTML = '<p>Invalid subnet mask input.</p>';
-      resultsDiv.classList.remove('hidden');
-    }
-  }
-</script>
-<script
-    id="counterscale-script"
-    data-site-id="subnet.yack.one"
-    src="https://track.yack.one/tracker.js"
-    defer
-></script>
-</body>
+          resultsDiv.classList.remove('hidden');
+        } else {
+          resultsDiv.innerHTML = '<p>Invalid subnet mask input.</p>';
+          resultsDiv.classList.remove('hidden');
+        }
+      }
+    </script>
+    <script defer src="https://analytics.yack.one/em.js" data-domain="subnet.yack.one"></script>
+  </body>
 </html>
